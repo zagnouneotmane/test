@@ -1,0 +1,165 @@
+schema: '2.0'
+stages:
+  data_load:
+    cmd: python src/stages/data_load.py --config=params.yaml
+    deps:
+    - path: src/stages/data_load.py
+      hash: md5
+      md5: 9662f50f7247acdc2619b462a551d466
+      size: 873
+    - path: src/utils/data_utils.py
+      hash: md5
+      md5: d11c9ff8b931b20ceb78f8e8b98136d1
+      size: 6818
+    params:
+      params.yaml:
+        base:
+          project: customer_booking
+          random_state: 0
+        data_load:
+          dataset_url: https://customer-booking-s3.s3.eu-west-3.amazonaws.com/customer_booking.csv
+          data_dir: data/data_ingestion
+          file_name: customer_booking.csv
+    outs:
+    - path: data/data_ingestion/customer_booking.csv
+      hash: md5
+      md5: b96996b629f4a90ad10d2273bb76b869
+      size: 3146444
+  data_split:
+    cmd: python src/stages/data_split.py --config=params.yaml
+    deps:
+    - path: data/data_ingestion/customer_booking.csv
+      hash: md5
+      md5: b96996b629f4a90ad10d2273bb76b869
+      size: 3146444
+    - path: src/stages/data_split.py
+      hash: md5
+      md5: cfcb375906ed5fa479012ae13e8d2b01
+      size: 1060
+    - path: src/utils/data_utils.py
+      hash: md5
+      md5: d11c9ff8b931b20ceb78f8e8b98136d1
+      size: 6818
+    params:
+      params.yaml:
+        base:
+          project: customer_booking
+          random_state: 0
+        data_load:
+          dataset_url: https://customer-booking-s3.s3.eu-west-3.amazonaws.com/customer_booking.csv
+          data_dir: data/data_ingestion
+          file_name: customer_booking.csv
+        data_split:
+          test_pct: 0.2
+          train_test_dir_path: data/data_transformation
+          train_file_name: train.csv
+          test_file_name: test.csv
+    outs:
+    - path: data/data_transformation/test.csv
+      hash: md5
+      md5: a54c53304559dec8ecc6e76a4f4f0902
+      size: 1121213
+    - path: data/data_transformation/train.csv
+      hash: md5
+      md5: d06092d0b21fb9f99051d4f894d0fd28
+      size: 4507829
+  train:
+    cmd: python src/stages/train.py --config=params.yaml
+    deps:
+    - path: data/data_transformation/train.csv
+      hash: md5
+      md5: d06092d0b21fb9f99051d4f894d0fd28
+      size: 4507829
+    - path: src/stages/train.py
+      hash: md5
+      md5: 42aa65eadd53f26e8cc996b26df9f32d
+      size: 2236
+    - path: src/utils/train_utils.py
+      hash: md5
+      md5: b2682689852bf760665458d0f4862ebc
+      size: 2971
+    params:
+      params.yaml:
+        base:
+          project: customer_booking
+          random_state: 0
+        data_split:
+          test_pct: 0.2
+          train_test_dir_path: data/data_transformation
+          train_file_name: train.csv
+          test_file_name: test.csv
+        train:
+          selectkbest__k: 55
+          n_estimators: 500
+          min_samples_split: 2
+          min_samples_leaf: 8
+          max_features: sqrt
+          max_depth: 30
+          criterion: gini
+          class_weight:
+            0: 1
+            1: 5
+          target_column: booking_complete
+          metrics_train_file: training/metrics.json
+          model_path: models
+          model_name: model.joblib
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: 8165fe401d4e74d0a86752c165205e60
+      size: 26174761
+    - path: training/metrics.json
+      hash: md5
+      md5: d63d1919399b5cf08d21b7353c259799
+      size: 1825
+  evaluate:
+    cmd: python src/stages/eval.py --config=params.yaml
+    deps:
+    - path: data/data_transformation/test.csv
+      hash: md5
+      md5: a54c53304559dec8ecc6e76a4f4f0902
+      size: 1121213
+    - path: models/model.joblib
+      hash: md5
+      md5: 8165fe401d4e74d0a86752c165205e60
+      size: 26174761
+    - path: src/stages/eval.py
+      hash: md5
+      md5: 70ff0856697b7c1ef4d0364d86f66f68
+      size: 1504
+    - path: src/utils/eval_utils.py
+      hash: md5
+      md5: 456eaf50c1d9ba3a6c85ed6637dbe815
+      size: 2105
+    params:
+      params.yaml:
+        base:
+          project: customer_booking
+          random_state: 0
+        data_split:
+          test_pct: 0.2
+          train_test_dir_path: data/data_transformation
+          train_file_name: train.csv
+          test_file_name: test.csv
+        evaluate:
+          metrics_file: evaluation/metrics.json
+        train:
+          selectkbest__k: 55
+          n_estimators: 500
+          min_samples_split: 2
+          min_samples_leaf: 8
+          max_features: sqrt
+          max_depth: 30
+          criterion: gini
+          class_weight:
+            0: 1
+            1: 5
+          target_column: booking_complete
+          metrics_train_file: training/metrics.json
+          model_path: models
+          model_name: model.joblib
+    outs:
+    - path: evaluation/metrics.json
+      hash: md5
+      md5: 7c07c3a02abb607b18946db4e07f2d3d
+      size: 146

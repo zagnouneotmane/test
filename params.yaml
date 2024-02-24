@@ -1,0 +1,32 @@
+base:
+  project: customer_booking
+  random_state: 0
+
+data_load:
+  dataset_url: https://customer-booking-s3.s3.eu-west-3.amazonaws.com/customer_booking.csv
+  data_dir: data/data_ingestion
+  file_name: customer_booking.csv
+
+data_split:
+  test_pct: 0.20
+  train_test_dir_path: data/data_transformation
+  train_file_name: train.csv
+  test_file_name: test.csv
+
+
+train:
+  selectkbest__k: 55
+  n_estimators: 500
+  min_samples_split: 2
+  min_samples_leaf: 8
+  max_features: sqrt
+  max_depth: 30
+  criterion: gini
+  class_weight: {0: 1, 1: 5}
+  target_column: booking_complete
+  metrics_train_file: training/metrics.json
+  model_path: models
+  model_name: model.joblib
+
+evaluate:
+  metrics_file: evaluation/metrics.json

@@ -24,7 +24,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: us-west-1
           role-to-assume: arn:aws:iam::175754385727:role/SandboxUser
       - name: cml runner
         env:
@@ -34,7 +34,7 @@ jobs:
         run: |
           cml runner \
               --cloud=aws \
-              --cloud-region=us-east-1 \
+              --cloud-region=us-west-1 \
               --cloud-type=t2.large \
               --labels=cml-runner
  

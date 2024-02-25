@@ -35,8 +35,6 @@ jobs:
   train-model:
     needs: deploy-runner
     runs-on: [self-hosted, cml-runner]
-    container:
-      image: otmane10/customer-booking1
     environment: cloud
     permissions:
       contents: read

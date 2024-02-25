@@ -2,7 +2,7 @@ name: Run Experiment
 on:
   push:
     branches:    
-      - 'exp*'
+      - main
     paths:
       - "data/**"
       - "src/**"

@@ -48,7 +48,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: 3.8
+          python-version: "3.13.0-alpha.4"
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: us-east-1

@@ -6,8 +6,6 @@ on:
 jobs:
   deploy-runner:
     runs-on: ubuntu-latest
-    container:
-      image: otmane10/customer-booking1
     environment: cloud
     permissions:
       contents: write
@@ -37,6 +35,8 @@ jobs:
   train-model:
     needs: deploy-runner
     runs-on: [self-hosted, cml-runner]
+    container:
+      image: otmane10/customer-booking1
     environment: cloud
     permissions:
       contents: read

@@ -5,7 +5,7 @@ on:
       - 'main'
 jobs:
   deploy-runner:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     environment: cloud
     permissions:
       contents: write
@@ -47,7 +47,8 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-python@v2
         with:
-          python-version: "3.8.10"
+          python-version: "3.9"
+          ubuntu-version: '20.04'
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: us-east-1

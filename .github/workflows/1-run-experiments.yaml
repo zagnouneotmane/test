@@ -47,7 +47,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-python@v2
         with:
-          python-version: "3.9.13-linux"
+          python-version: "3.x"
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: us-east-1

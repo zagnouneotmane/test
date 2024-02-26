@@ -35,9 +35,6 @@ jobs:
   train-model:
     needs: deploy-runner
     runs-on: [self-hosted, cml-runner]
-    strategy:
-      matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11-dev"]
     container:
       image: otmane10/customer-booking1
     environment: cloud
@@ -48,15 +45,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      - name: Update system packages
-        run: |
-          apt-get update -y
-          apt-get upgrade -y
-
-      - name: Setup Python
-        uses: actions/setup-python@v2
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.8
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: us-east-1

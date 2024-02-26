@@ -47,8 +47,8 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Update system packages
         run: |
-          sudo apt-get update -y
-          sudo apt-get upgrade -y
+          apt-get update -y
+          apt-get upgrade -y
 
       - name: Setup Python
         uses: actions/setup-python@v2

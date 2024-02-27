@@ -36,7 +36,7 @@ jobs:
     needs: deploy-runner
     runs-on: [self-hosted, cml-runner]
     container:
-      image: otmane10/customer-booking:0.0.1
+      image: otmane10/customer-booking:0.0.10
     environment: cloud
     permissions:
       contents: read
@@ -47,7 +47,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-python@v2
         with:
-            python-version: "3.9"
+            python-version: "3.10"
             cache: 'pip'
         env:
             # Required to detect python properly

@@ -12,11 +12,6 @@ jobs:
       id-token: write
       pull-requests: write
     steps:
-      - name: Update and upgrade system
-        run: |
-          sudo apt-get update -y
-          sudo apt-get upgrade -y
-
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
@@ -41,7 +36,7 @@ jobs:
     needs: deploy-runner
     runs-on: [self-hosted, cml-runner]
     container:
-      image: otmane10/customer-booking1
+      image: otmane10/customer-booking:0.0.1
     environment: cloud
     permissions:
       contents: read
@@ -73,8 +68,13 @@ jobs:
           dvc repro
           dvc push
           cml pr --squash --skip-ci .
-
           ### Create CML report ###
+          echo "## Metrics" >> report.md
+          dvc metrics show --md >> report.md
+          done
+          ########################
+          
+          cml send-comment --pr --update report.md
           echo "## Metrics" >> report.md
           dvc metrics show --md >> report.md
           done

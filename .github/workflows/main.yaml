@@ -16,3 +16,4 @@ jobs:
         with:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::175754385727:role/SandboxUser
+          

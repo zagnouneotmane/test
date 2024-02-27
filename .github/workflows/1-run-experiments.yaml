@@ -17,12 +17,6 @@ jobs:
           sudo apt-get update -y
           sudo apt-get upgrade -y
 
-      - name: Install Docker
-        run: |
-          curl -fsSL https://get.docker.com -o get-docker.sh
-          sudo sh get-docker.sh
-          sudo usermod -aG docker ubuntu
-          newgrp docker
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}

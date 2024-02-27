@@ -2,7 +2,7 @@ name: Run Experiment
 on:
   push:
     branches:    
-      - 'main'
+      - 'exp'
 jobs:
   deploy-runner:
     runs-on: ubuntu-latest

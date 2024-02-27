@@ -4,12 +4,14 @@ on:
 jobs:
   build:
     runs-on: self-hosted
+    container:
+      image: python:3.9
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3.8
+      - name: Set up Python 3.9
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.9
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: us-east-1

@@ -3,7 +3,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     container:
       image: python:3.10.12
     steps:

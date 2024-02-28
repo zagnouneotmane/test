@@ -33,21 +33,10 @@ jobs:
   train-model:
     needs: deploy-runner
     runs-on: [self-hosted, cml-runner]
-    container:
-      image: python:3.9
-    environment: cloud
-    permissions:
-      contents: read
-      id-token: write
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-python@v2
         with:
             python-version: 3.9
-      - uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-region: us-east-1
-          role-to-assume: arn:aws:iam::175754385727:role/SandboxUser
+      
           

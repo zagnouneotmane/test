@@ -5,7 +5,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: python:3.9
+      image: otmane10/customer-booking:0.0.1
     steps:
 
       - uses: actions/checkout@v2

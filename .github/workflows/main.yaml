@@ -4,8 +4,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: otmane10/customer-booking:0.0.1
     steps:
 
       - uses: actions/checkout@v2
@@ -13,6 +11,4 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - name: Print Python version
-        run: ls
           

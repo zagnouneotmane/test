@@ -33,6 +33,8 @@ jobs:
   train-model:
     needs: deploy-runner
     runs-on: [self-hosted, cml-runner]
+    container:
+      image: python:3.9
     environment: cloud
     permissions:
       contents: read

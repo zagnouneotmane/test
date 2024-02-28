@@ -2,17 +2,48 @@ on:
   push:
 
 jobs:
-  build:
-    runs-on: self-hosted
-    container:
-      image: python:3.9
+  deploy-runner:
+    runs-on: ubuntu-latest
+    environment: cloud
+    permissions:
+      contents: write
+      id-token: write
+      pull-requests: write
     steps:
-
-      - uses: actions/checkout@v2
-      - name: Set up Python 3.9 
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
         with:
-          python-version: 3.9
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: iterative/setup-cml@v1
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::175754385727:role/SandboxUser
+      - name: cml runner
+        env:
+          # set these secrets via gh CLI or UI. See also:
+          # https://cml.dev/doc/self-hosted-runners?tab=GitHub#personal-access-token
+          REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          cml runner \
+              --cloud=aws \
+              --cloud-region=us-east-1 \
+              --cloud-type=t2.large \
+              --labels=cml-runner
+          
+  train-model:
+    needs: deploy-runner
+    runs-on: [self-hosted, cml-runner]
+    environment: cloud
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v2
+        with:
+            python-version: 3.9
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: us-east-1

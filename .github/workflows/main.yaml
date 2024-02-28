@@ -14,5 +14,5 @@ jobs:
         with:
           python-version: 3.9
       - name: Print Python version
-        run: python --version
+        run: ls
           

@@ -34,9 +34,6 @@ jobs:
     needs: deploy-runner
     runs-on: [self-hosted, cml-runner]
     environment: cloud
-    permissions:
-      contents: read
-      id-token: write
     container:
       image: python:3.9
     steps:

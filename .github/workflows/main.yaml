@@ -3,7 +3,7 @@ on:
 
 jobs:
   build:
-    runs-on: [self-hosted, pyt]
+    runs-on: self-hosted
     container:
       image: python:3.9
     steps:

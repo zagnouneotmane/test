@@ -28,5 +28,5 @@ jobs:
               --cloud=aws \
               --cloud-region=us-east-1 \
               --cloud-type=t2.large \
-              --cloud-startup-script=$(echo "Hello World" >> /tmp/testfile.txt' | base64 -w 0) \
+              --cloud-startup-script=$(echo "Hello World" >> /tmp/testfile.txt | base64 -w 0) \
               --labels=cml-runner

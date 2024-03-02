@@ -34,8 +34,9 @@ jobs:
               mkdir -p actions-runner/{_work/_temp,_work/_tool/Python/3.9.18/x64}
               wget -O- https://github.com/actions/python-versions/releases/download/3.9.18-5997508477/python-3.9.18-linux-22.04-x64.tar.gz | tar xzf - -C actions-runner/_work/_temp/
               export LD_LIBRARY_PATH="/home/ubuntu/actions-runner/_work/_tool/Python/3.9.18/x64/lib:/Python/3.9.18/x64/lib:$LD_LIBRARY_PATH"
-              cp -R actions-runner/_work/_temp/* /home/ubuntu/actions-runner/_work/_tool/Python/3.9.18/x64 && rm /home/ubuntu/actions-runner/_work/_tool/Python/3.9.18/x64/setup.sh && cd /home/ubuntu/actions-runner/_work/_tool/Python/3.9.18/x64
-              ln -s ./bin/python3.9 python
+              cp -R actions-runner/_work/_temp/* /home/ubuntu/actions-runner/_work/_tool/Python/3.9.18/x64
+              rm /home/ubuntu/actions-runner/_work/_tool/Python/3.9.18/x64/setup.sh
+              cd /home/ubuntu/actions-runner/_work/_tool/Python/3.9.18/x64
               cd bin/
               ln -s python3.9 python39
               ln -s python3.9 python

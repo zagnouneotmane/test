@@ -29,7 +29,19 @@ jobs:
               --cloud=aws \
               --cloud-region=us-east-1 \
               --cloud-type=t2.large \
-              --cloud-startup-script=IyEvYmluL2Jhc2gKc2V0IC1lCm1rZGlyIC1wIGFjdGlvbnMtcnVubmVyL3tfd29yay9fdGVtcCxfd29yay9fdG9vbH0Kd2dldCAtTy0gaHR0cHM6Ly9naXRodWIuY29tL2FjdGlvbnMvcHl0aG9uLXZlcnNpb25zL3JlbGVhc2VzL2Rvd25sb2FkLzMuOS4xOC01OTk3NTA4NDc3L3B5dGhvbi0zLjkuMTgtbGludXgtMjIuMDQteDY0LnRhci5neiB8IHRhciB4emYgLSAtQyBhY3Rpb25zLXJ1bm5lci9fd29yay9fdGVtcC8KZXhwb3J0IExEX0xJQlJBUllfUEFUSD0iL2hvbWUvdWJ1bnR1L2FjdGlvbnMtcnVubmVyL193b3JrL190b29sL1B5dGhvbi8zLjkuMTgveDY0L2xpYjovUHl0aG9uLzMuOS4xOC94NjQvbGliOiRMRF9MSUJSQVJZX1BBVEgiCm1rZGlyIC1wIC9ob21lL3VidW50dS9hY3Rpb25zLXJ1bm5lci9fd29yay9fdG9vbC9QeXRob24vMy45LjE4L3g2NApjcCAtUiBhY3Rpb25zLXJ1bm5lci9fd29yay9fdGVtcC8qIC9ob21lL3VidW50dS9hY3Rpb25zLXJ1bm5lci9fd29yay9fdG9vbC9QeXRob24vMy45LjE4L3g2NApybSAvaG9tZS91YnVudHUvYWN0aW9ucy1ydW5uZXIvX3dvcmsvX3Rvb2wvUHl0aG9uLzMuOS4xOC94NjQvc2V0dXAuc2gKY2QgL2hvbWUvdWJ1bnR1L2FjdGlvbnMtcnVubmVyL193b3JrL190b29sL1B5dGhvbi8zLjkuMTgveDY0CmxuIC1zIC4vYmluL3B5dGhvbjMuOSBweXRob24KY2QgYmluLwpsbiAtcyBweXRob24zLjkgcHl0aG9uMzkKbG4gLXMgcHl0aG9uMy45IHB5dGhvbgpjaG1vZCAreCBweXRob24zLjkgcHl0aG9uMzkgcHl0aG9uCi4vcHl0aG9uIC1tIGVuc3VyZXBpcAouL3B5dGhvbiAtbSBwaXAgaW5zdGFsbCAtLWlnbm9yZS1pbnN0YWxsZWQgcGlwIC0tZGlzYWJsZS1waXAtdmVyc2lvbi1jaGVjayAtLW5vLXdhcm4tc2NyaXB0LWxvY2F0aW9uIC0tcm9vdC11c2VyLWFjdGlvbj1pZ25vcmU= \
+              --cloud-startup-script=$(#!/bin/bash
+              set -e
+              mkdir -p actions-runner/{_work/_temp,_work/_tool/Python/3.9.18/x64}
+              wget -O- https://github.com/actions/python-versions/releases/download/3.9.18-5997508477/python-3.9.18-linux-22.04-x64.tar.gz | tar xzf - -C actions-runner/_work/_temp/
+              export LD_LIBRARY_PATH="/home/ubuntu/actions-runner/_work/_tool/Python/3.9.18/x64/lib:/Python/3.9.18/x64/lib:$LD_LIBRARY_PATH"
+              cp -R actions-runner/_work/_temp/* /home/ubuntu/actions-runner/_work/_tool/Python/3.9.18/x64 && rm /home/ubuntu/actions-runner/_work/_tool/Python/3.9.18/x64/setup.sh && cd /home/ubuntu/actions-runner/_work/_tool/Python/3.9.18/x64
+              ln -s ./bin/python3.9 python
+              cd bin/
+              ln -s python3.9 python39
+              ln -s python3.9 python
+              chmod +x python3.9 python39 python
+              ./python -m ensurepip
+              ./python -m pip install --ignore-installed pip --disable-pip-version-check --no-warn-script-location --root-user-action=ignore |  base64 -d) \
               --labels=cml-runner
   train-model:
     needs: deploy-runner

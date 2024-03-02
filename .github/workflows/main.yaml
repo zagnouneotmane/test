@@ -28,6 +28,6 @@ jobs:
               --cloud=aws \
               --cloud-region=us-east-1 \
               --cloud-type=t2.large \
-              --cloud-userdata="#!/bin/bash
+              --cloud-startup-script="#!/bin/bash
               /bin/echo "Hello World" >> /tmp/testfile.txt" \
               --labels=cml-runner

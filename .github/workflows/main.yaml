@@ -25,7 +25,7 @@ jobs:
           REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           cml runner \
-              --log="debug"
+              --log="debug" \
               --cloud=aws \
               --cloud-region=us-east-1 \
               --cloud-type=t2.large \

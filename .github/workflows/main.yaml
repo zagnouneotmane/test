@@ -32,5 +32,5 @@ jobs:
           ########################
           
 
-          cml send-comment --pr --update report.md)
+          cml send-comment --pr --update report.md
 

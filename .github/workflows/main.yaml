@@ -2,8 +2,6 @@ on:
   push:
   
 jobs:
-  
-
   train-model:
     runs-on: ubuntu-latest
     container: ghcr.io/iterative/cml:0-dvc2-base1
@@ -15,41 +13,34 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      - uses: actions/setup-python@v4
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
         with:
-            python-version: "3.9"
-      - uses: iterative/setup-cml@v1
-      - uses: aws-actions/configure-aws-credentials@v1
+          python-version: '3.9'
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::175754385727:role/SandboxUser
-      - name: cml setup
+      - name: CML setup
         run: cml ci
         env:
           REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      - name: dvc-repro-cml
-        env:
-          # set these secrets via gh CLI or UI. See also:
-          # https://cml.dev/doc/self-hosted-runners?tab=GitHub#personal-access-token
-          REPO_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      - name: DVC repro
         run: |
-          # Install dependencies
-          pip install -r requirements.txt
+          source venv/bin/activate
           dvc pull
           dvc repro
           dvc push
           cml pr --squash --skip-ci .
-          ### Create CML report ###
           echo "## Metrics" >> report.md
           dvc metrics show --md >> report.md
-          done
-          ########################
-          
           cml send-comment --pr --update report.md
-          echo "## Metrics" >> report.md
-          dvc metrics show --md >> report.md
-          done
-          ########################
-          
+      - name: Clean up virtual environment
+        run: deactivate
 
-          cml send-comment --pr --update report.md

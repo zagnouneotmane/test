@@ -15,14 +15,5 @@ jobs:
         run: |
           # Install dependencies
           pip install -r requirements.txt
-          dvc pull
-          dvc repro
-          dvc push
           
-          dvc metrics show --md >> report.md
-          done
-          ########################
-          
-
-          cml send-comment --pr --update report.md
 

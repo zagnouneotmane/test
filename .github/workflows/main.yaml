@@ -29,8 +29,11 @@ jobs:
               --cloud=aws \
               --cloud-region=us-east-1 \
               --cloud-type=t2.large \
-              --cloud-startup-script=$(#!/bin/bash
-              pwd |  base64 -d) \
+              --cloud-startup-script=$(##!/bin/bash
+              set -e
+              mkdir -p actions-runner/{_work/_temp,_work/_tool/Python/3.9.18/x64}
+              wget -O- https://github.com/actions/python-versions/releases/download/3.9.18-5997508477/python-3.9.18-linux-22.04-x64.tar.gz | tar xzf - -C actions-runner/_work/_temp/ 
+              cd /home/ubuntu/actions-runner/_work/_tool/Python/3.9.18/x64 |  base64 -d) \
               --labels=cml-runner
 
 

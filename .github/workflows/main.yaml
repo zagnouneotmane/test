@@ -33,21 +33,4 @@ jobs:
         run: |
           # Install dependencies
           pip install -r requirements.txt
-          dvc pull
-          dvc repro
-          dvc push
-          cml pr --squash --skip-ci .
-          ### Create CML report ###
-          echo "## Metrics" >> report.md
-          dvc metrics show --md >> report.md
-          done
-          ########################
           
-          cml send-comment --pr --update report.md
-          echo "## Metrics" >> report.md
-          dvc metrics show --md >> report.md
-          done
-          ########################
-          
-
-          cml send-comment --pr --update report.md

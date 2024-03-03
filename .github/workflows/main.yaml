@@ -35,7 +35,7 @@ jobs:
     needs: deploy-runner
     runs-on: [self-hosted, cml-runner]
     container:
-      image: iterativeai/cml:0-dvc2-base1
+      image: iterativeai/cml:latest
     environment: cloud
     permissions:
       contents: read

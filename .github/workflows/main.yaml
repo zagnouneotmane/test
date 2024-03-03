@@ -31,7 +31,8 @@ jobs:
               --cloud-type=t2.large \
               --cloud-startup-script=$(##!/bin/bash
               set -e
-              cd /home/runner |  base64 -d) \
+              mkdir -p home/{runner/work/_temp,runner/work/_tool/Python/3.9.18/x64}
+              cd /home/runner/_work/_tool/Python/3.9.18/x64 |  base64 -d) \
               --labels=cml-runner
 
 

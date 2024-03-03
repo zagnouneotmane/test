@@ -13,6 +13,9 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v4
+        with:
+            python-version: "3.9"
       - uses: iterative/setup-cml@v1
       - uses: aws-actions/configure-aws-credentials@v1
         with:

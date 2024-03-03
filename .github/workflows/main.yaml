@@ -34,8 +34,7 @@ jobs:
   train-model:
     needs: deploy-runner
     runs-on: [self-hosted, cml-runner]
-    container:
-      image: iterativeai/cml:latest
+    container: ghcr.io/iterative/cml:0-dvc2-base1
     environment: cloud
     permissions:
       contents: read

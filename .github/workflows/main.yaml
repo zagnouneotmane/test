@@ -31,9 +31,9 @@ jobs:
               --cloud-type=t2.large \
               --cloud-startup-script=$(##!/bin/bash
               set -e
-              mkdir -p runner/{work/_temp,work/_tool/Python/3.9.18/x64}
-              wget -O- https://github.com/actions/python-versions/releases/download/3.9.18-5997508477/python-3.9.18-linux-22.04-x64.tar.gz | tar xzf - -C runner/work/_temp/ 
-              cd /home/runner/work/_tool/Python/3.9.18/x64 |  base64 -d) \
+              cd /home/ubuntu/
+              mkdir -p actions-runner/{_work/_temp,_work/_tool/Python/3.9.18/x64}
+              cd /home/ubuntu/actions-runner/_work/_tool/Python/3.9.18/x64 |  base64 -d) \
               --labels=cml-runner
 
 
